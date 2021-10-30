@@ -21,8 +21,4 @@ contract L2TokenMock is L2Token {
     ) public {
         _safeMint(to, tokenId, _data);
     }
-
-    function burn(uint256 tokenId) public {
-        _burn(tokenId);
-    }
 }
