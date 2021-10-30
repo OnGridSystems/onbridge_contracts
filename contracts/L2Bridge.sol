@@ -4,15 +4,14 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
-
 /**
  * @dev Extension of {ERC721} that allows to mint and destroy token
  */
 interface IERC721Bridged is IERC721 {
     function mint(address to, uint256 id) external;
+
     function burn(uint256 id) external;
 }
-
 
 /**
  * @title Bridge Layer 2 contract
@@ -23,7 +22,6 @@ interface IERC721Bridged is IERC721 {
  **/
 
 contract L2Bridge is AccessControl {
-
     // Original token on L1 network (Ethereum mainnet #1)
     IERC721 public l1Token;
 
