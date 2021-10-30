@@ -74,4 +74,12 @@ contract L2Token is ERC721Enumerable, AccessControl {
     {
         defaultUri = uri;
     }
+
+    /**
+     * @dev Destroys a token from the msg.sender address
+     * @param id the id of token to be destroyed
+     */
+    function burn(uint256 id) public onlyRole(MINTER_ROLE) {
+        _burn(id);
+    }
 }
