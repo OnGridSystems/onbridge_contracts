@@ -85,6 +85,26 @@ describe("L2Bridge", function () {
       expect(await this.l2token.ownerOf(100)).to.equal(this.l2holder.address);
     });
 
+    describe("oracle calls finalizeInboundTransfer", function () {
+      const l1Tx =
+        "0x117ddadadc7b8d342cf48513fef06a2cba15dfb9c488dc51aefc998abcefb52b";
+      beforeEach(async function () {
+        await this.l2bridge
+          .connect(this.oracle)
+          .finalizeInboundTransfer(this.l2holder.address, l1Tx, "200");
+      });
+
+      it("l2bridge can`t burn a token that the l2holder does not own", async function () {
+        await expect(
+          this.l2bridge
+            .connect(this.l2holder)
+            .outboundTransfer(this.l2holder.address, "200")
+        ).to.be.revertedWith(
+          "ERC721: transfer caller is not owner nor approved"
+        );
+      });
+    });
+
     describe("token goes back to L1 (holder calls outboundTransfer)", function () {
       beforeEach(async function () {
         await this.l2token
