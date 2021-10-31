@@ -5,10 +5,10 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 /**
- * @title Bridge Layer 2 contract
- * @dev This contract deployed on secondary network with Bridged token contract
- * - upon `finalizeInboundTransfer` call from oracle, it mints corresponding amount of tokens on Layer 2 network
- * - upon `outboundTransfer` call from token holder it withdraws and burns L2 the requested token
+ * @title Bridge Layer 1 contract
+ * @dev This contract gets deployed on main network and receives and locks tokens to bridge them on L2
+ * - upon `finalizeInboundTransfer` called by oracle, and releases corresponding amount of tokens back to holder
+ * - upon `outboundTransfer` called by token holder to deposit token to L2
  * @author OnBridge IO
  **/
 
@@ -17,6 +17,7 @@ contract L1Bridge is AccessControl {
     IERC721 public l1Token;
 
     // L2 mintable + burnable token that acts as a twin of L1 asset
+    // For informational purposes only
     IERC721 public l2Token;
 
     bytes32 public constant ORACLE_ROLE = keccak256("ORACLE_ROLE");
@@ -44,9 +45,9 @@ contract L1Bridge is AccessControl {
 
     /**
      * @notice Initiates a deposit from L1 to L2; callable by any tokenholder.
-     * The amount should be approved by the holder
+     * The token should be approved by the holder
      * @param _to L2 address of destination
-     * @param _id Token id to bridge
+     * @param _id Token id that will be bridged
      */
     function outboundTransfer(address _to, uint256 _id) external {
         l1Token.transferFrom(msg.sender, address(this), _id);
@@ -56,7 +57,7 @@ contract L1Bridge is AccessControl {
     /**
      * @notice Finalizes withdrawal initiated on L2. callable only by ORACLE_ROLE
      * @param _to L1 address of destination
-     * @param _id Token id being deposited
+     * @param _id Token id being withdrawn
      * @param _l2Tx Tx hash of `L2Bridge.outboundTransfer` on L2 side
      */
     function finalizeInboundTransfer(

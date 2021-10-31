@@ -16,7 +16,7 @@ contract L2Token is ERC721Enumerable, AccessControl {
 
     // If tokenId doesn't match any configured batch, defaultURI parameters are used.
     string public defaultUri;
-    // Roles that can modify individual characteristics
+
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
     constructor() ERC721("L2Token", "") {
