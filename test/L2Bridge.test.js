@@ -47,8 +47,8 @@ describe("L2Bridge", function () {
   });
 
   it("l1 token has proper name and symbol", async function () {
-    expect(await this.l2token.name()).to.equal("L2Token");
-    expect(await this.l2token.symbol()).to.equal("");
+    expect(await this.l2token.name()).to.equal("Grizzly");
+    expect(await this.l2token.symbol()).to.equal("GRZL");
   });
 
   it("revert then trying finalizeInboundTransfer to zero address", async function () {

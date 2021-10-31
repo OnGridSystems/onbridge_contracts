@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.9;
 
@@ -18,7 +18,7 @@ contract L2Token is ERC721Enumerable, AccessControl {
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
-    constructor() ERC721("Grizzly", "Grzl") {
+    constructor() ERC721("Grizzly", "GRZL") {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _setupRole(MINTER_ROLE, _msgSender());
     }
