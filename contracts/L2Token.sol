@@ -5,7 +5,6 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 /**
  * @title L2Token
@@ -19,7 +18,7 @@ contract L2Token is ERC721Enumerable, AccessControl {
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
-    constructor() ERC721("L2Token", "") {
+    constructor() ERC721("Grizzly", "Grzl") {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _setupRole(MINTER_ROLE, _msgSender());
     }
@@ -79,7 +78,7 @@ contract L2Token is ERC721Enumerable, AccessControl {
      * @dev Destroys a token from the msg.sender address
      * @param id the id of token to be destroyed
      */
-    function burn(uint256 id) public onlyRole(MINTER_ROLE) {
+    function burn(uint256 id) public {
         _burn(id);
     }
 }
