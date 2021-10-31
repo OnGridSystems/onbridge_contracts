@@ -52,6 +52,11 @@ describe("L1Bridge", function () {
     );
   });
 
+  it("l1 token has proper name and symbol", async function () {
+    expect(await this.l1token.name()).to.equal("Grizzly");
+    expect(await this.l1token.symbol()).to.equal("GRZL");
+  });
+
   it("should be deployed", async function () {
     expect(await this.l1bridge.deployed(), true);
     expect(await this.l1token.deployed(), true);

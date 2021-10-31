@@ -3,8 +3,10 @@ require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-solhint");
 require("@nomiclabs/hardhat-etherscan");
 require("solidity-coverage");
-// require("hardhat-deploy");
-// require("hardhat-deploy-ethers");
+require("hardhat-deploy");
+require("hardhat-deploy-ethers");
+
+require("./tasks/1-set-default-uri.js");
 
 const accounts = {
   mnemonic: `${process.env.MNEMONIC}`,
@@ -37,6 +39,15 @@ module.exports = {
       saveDeployments: true,
       tags: ["staging"],
       gasPrice: 8000000000,
+    },
+    bsc_testnet: {
+      url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
+      accounts,
+      chainId: 97,
+      live: true,
+      saveDeployments: true,
+      tags: ["staging"],
+      gasPrice: 10000000000,
     },
   },
   etherscan: {

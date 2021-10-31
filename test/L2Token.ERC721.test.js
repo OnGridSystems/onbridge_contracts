@@ -7,8 +7,8 @@ const {
 const L2TokenMock = artifacts.require("L2TokenMock");
 
 contract("L2Token : ERC721", function (accounts) {
-  const name = "L2Token";
-  const symbol = "";
+  const name = "Grizzly";
+  const symbol = "GRZL";
 
   beforeEach(async function () {
     this.token = await L2TokenMock.new();
