@@ -14,12 +14,15 @@ describe("L1Bridge", function () {
 
     this.L1TokenArtifact = await ethers.getContractFactory("L1Token");
     this.L1BridgeArtifact = await ethers.getContractFactory("L1Bridge");
+    this.DeBridgeGateArtifact = await ethers.getContractFactory("DeBridgeGateMock");
   });
 
   it("revert then trying finalizeInboundTransfer to zero address", async function () {
     await expect(
       this.L1BridgeArtifact.deploy(
         constants.ZERO_ADDRESS,
+        this.account1.address,
+        this.account1.address,
         this.account1.address
       )
     ).to.be.revertedWith("ZERO_TOKEN");
@@ -29,16 +32,21 @@ describe("L1Bridge", function () {
     await expect(
       this.L1BridgeArtifact.deploy(
         this.account1.address,
-        constants.ZERO_ADDRESS
+        this.account1.address,
+        constants.ZERO_ADDRESS,
+        this.account1.address
       )
     ).to.be.revertedWith("ZERO_TOKEN");
   });
 
   beforeEach(async function () {
     this.l1token = await this.L1TokenArtifact.deploy();
+    this.l1debridgeGate = await this.DeBridgeGateArtifact.deploy();
     this.l1bridge = await this.L1BridgeArtifact.deploy(
       this.l1token.address,
-      this.l2Token.address
+      this.l1debridgeGate.address,
+      this.l2Token.address,
+      this.account1.address
     );
     const ORACLE_ROLE = await this.l1bridge.ORACLE_ROLE();
     await this.l1bridge.grantRole(ORACLE_ROLE, this.oracle.address);
@@ -82,9 +90,13 @@ describe("L1Bridge", function () {
         await this.l1token
           .connect(this.l1holder)
           .approve(this.l1bridge.address, 100);
-        await this.l1bridge
+        this.outboundTransferTx = await this.l1bridge
           .connect(this.l1holder)
-          .outboundTransfer(this.l1holder.address, 100);
+          .outboundTransfer(this.l1holder.address, 100, {'value': 123456});
+      });
+
+      it("check events of outboundTransferTx transacted deBridgeGate", async function () {
+        await expect(this.outboundTransferTx).to.emit(this.l1debridgeGate, 'Sent');
       });
 
       it("l1bridge is ownerOf 100 token", async function () {
