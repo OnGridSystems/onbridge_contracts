@@ -47,6 +47,13 @@ module.exports = {
       live: true,
       saveDeployments: true,
       tags: ["staging"],
+    },
+    kovan: {
+      url: "https://kovan.poa.network",
+      accounts,
+      chainId: 42,
+      live: true,
+      saveDeployments: true,
       gasPrice: 10000000000,
     },
   },
