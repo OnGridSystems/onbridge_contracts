@@ -4,6 +4,8 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
+import "./mocks/DeBridgeGateMock.sol";
+
 /**
  * @title Bridge Layer 1 contract
  * @dev This contract gets deployed on main network and receives and locks tokens to bridge them on L2
@@ -15,6 +17,9 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 contract L1Bridge is AccessControl {
     // Original token on L1 network (Ethereum mainnet #1)
     IERC721 public l1Token;
+
+    DeBridgeGateMock public l1DeBridgeGate;
+    address public l2bridge;
 
     // L2 mintable + burnable token that acts as a twin of L1 asset
     // For informational purposes only
@@ -35,11 +40,13 @@ contract L1Bridge is AccessControl {
         uint256 _amount
     );
 
-    constructor(IERC721 _l1Token, IERC721 _l2Token) {
+    constructor(IERC721 _l1Token, DeBridgeGateMock _l1DeBridgeGate, IERC721 _l2Token, address _l2bridge) {
         require(address(_l1Token) != address(0), "ZERO_TOKEN");
         require(address(_l2Token) != address(0), "ZERO_TOKEN");
         l1Token = _l1Token;
+        l1DeBridgeGate = _l1DeBridgeGate;
         l2Token = _l2Token;
+        l2bridge = _l2bridge;
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
@@ -49,8 +56,13 @@ contract L1Bridge is AccessControl {
      * @param _to L2 address of destination
      * @param _id Token id that will be bridged
      */
-    function outboundTransfer(address _to, uint256 _id) external {
+    function outboundTransfer(address _to, uint256 _id) external payable {
         l1Token.transferFrom(msg.sender, address(this), _id);
+        uint256 chainIdTo = 97;
+        bytes memory permit = "";
+        uint32 referralCode = 0;
+        bytes memory autoParams = "";
+        l1DeBridgeGate.send(address(0), msg.value, chainIdTo, abi.encodePacked(l2bridge), permit, false, referralCode, autoParams);
         emit DepositInitiated(address(l1Token), msg.sender, _to, _id);
     }
 
