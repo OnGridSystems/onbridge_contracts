@@ -40,6 +40,20 @@ contract L1Bridge is AccessControl {
         uint256 _amount
     );
 
+    //DeBridge autoparamsTo flags positions
+    uint256 constant PROXY_WITH_SENDER = 2;
+    uint256 constant REVERT_IF_EXTERNAL_FAIL = 1;
+
+    //DeBridge SubmissionAutoParamsTo data structure.
+    //todo: should be moved to the separate library
+    //with its coders/decoders
+    struct SubmissionAutoParamsTo {
+        uint256 executionFee;
+        uint256 flags;
+        bytes fallbackAddress;
+        bytes data;
+    }
+
     constructor(IERC721 _l1Token, DeBridgeGateMock _l1DeBridgeGate, IERC721 _l2Token, address _l2bridge) {
         require(address(_l1Token) != address(0), "ZERO_TOKEN");
         require(address(_l2Token) != address(0), "ZERO_TOKEN");
@@ -69,10 +83,12 @@ contract L1Bridge is AccessControl {
         uint256 chainIdTo = 97;
         bytes memory permit = "";
         uint32 referralCode = 0;
-        //todo: autoParams should be calculated during contract execution
-        //based on executionFee, flags, fallbackAddress, and external call data
-        bytes memory autoParams;
-        l1DeBridgeGate.send{value: msg.value}(address(0), msg.value, chainIdTo, abi.encodePacked(l2bridge), permit, false, referralCode, autoParams);
+        SubmissionAutoParamsTo memory autoParams;
+        autoParams.flags = 2 ** REVERT_IF_EXTERNAL_FAIL + 2 ** PROXY_WITH_SENDER;
+        autoParams.executionFee = 30000000000000000;
+        autoParams.fallbackAddress = abi.encode(l2bridge);
+        autoParams.data = abi.encodeWithSignature("finalizeInboundTransfer(address,string,uint256)", l2bridge, "", _id);
+        l1DeBridgeGate.send{value: msg.value}(address(0), msg.value, chainIdTo, abi.encodePacked(l2bridge), permit, false, referralCode, abi.encode(autoParams));
         emit DepositInitiated(address(l1Token), msg.sender, _to, _id);
     }
 
