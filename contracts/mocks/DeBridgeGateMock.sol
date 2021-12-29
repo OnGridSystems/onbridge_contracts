@@ -63,6 +63,9 @@ contract DeBridgeGateMock {
         uint256 amountAfterFee;
         SubmissionAutoParamsTo memory autoParams;
         bytes32 submissionId;
+        //todo: it could be useful to decode resulting autoParams here
+        //to assert in tests
+        //autoParams = abi.decode(_autoParams, (SubmissionAutoParamsTo));
 
         emit Sent(
             submissionId,
