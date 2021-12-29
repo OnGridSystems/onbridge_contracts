@@ -49,6 +49,15 @@ module.exports = {
       tags: ["staging"],
       gasPrice: 10000000000,
     },
+      kovan: {
+      url: "https://kovan.infura.io/v3/" + process.env.INFURA_ID,
+      accounts,
+      live: true,
+      saveDeployments: true,
+      gasPrice: 5e9,
+      gas: 6.9e6,
+      chainId: 42
+    },
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
