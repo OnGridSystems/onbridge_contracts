@@ -51,6 +51,14 @@ contract L1Bridge is AccessControl {
     }
 
     /**
+     * @notice Update address of L2Bridge contract
+     * @param _l2bridge new L2 Bridge
+     */
+    function setL2bridge(address _l2bridge) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        l2bridge = _l2bridge;
+    }
+
+    /**
      * @notice Initiates a deposit from L1 to L2; callable by any tokenholder.
      * The token should be approved by the holder
      * @param _to L2 address of destination
