@@ -61,8 +61,10 @@ contract L1Bridge is AccessControl {
         uint256 chainIdTo = 97;
         bytes memory permit = "";
         uint32 referralCode = 0;
-        bytes memory autoParams = "";
-        l1DeBridgeGate.send(address(0), msg.value, chainIdTo, abi.encodePacked(l2bridge), permit, false, referralCode, autoParams);
+        //todo: autoParams should be calculated during contract execution
+        //based on executionFee, flags, fallbackAddress, and external call data
+        bytes memory autoParams;
+        l1DeBridgeGate.send{value: msg.value}(address(0), msg.value, chainIdTo, abi.encodePacked(l2bridge), permit, false, referralCode, autoParams);
         emit DepositInitiated(address(l1Token), msg.sender, _to, _id);
     }
 
