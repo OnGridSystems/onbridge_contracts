@@ -1,0 +1,225 @@
+{
+  "address": "0x68D936Cb4723BdD38C488FD50514803f96789d2D",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "submissionId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "debridgeId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "receiver",
+          "type": "bytes"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "nonce",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "chainIdTo",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint32",
+          "name": "referralCode",
+          "type": "uint32"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "receivedAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "fixFee",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "transferFee",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "useAssetFee",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "isNativeToken",
+              "type": "bool"
+            }
+          ],
+          "indexed": false,
+          "internalType": "struct DeBridgeGateMock.FeeParams",
+          "name": "feeParams",
+          "type": "tuple"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "autoParams",
+          "type": "bytes"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "nativeSender",
+          "type": "address"
+        }
+      ],
+      "name": "Sent",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "nonce",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_tokenAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_chainIdTo",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_receiver",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_permit",
+          "type": "bytes"
+        },
+        {
+          "internalType": "bool",
+          "name": "_useAssetFee",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint32",
+          "name": "_referralCode",
+          "type": "uint32"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_autoParams",
+          "type": "bytes"
+        }
+      ],
+      "name": "send",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xf28713778b5dcdffba0ba53a280d8b4d5930b18830af7584bfa7996f561baaa0",
+  "receipt": {
+    "to": null,
+    "from": "0x49518ffe12fCda824FB39CCEa1cceDAf8A724FeB",
+    "contractAddress": "0x08a599929Eb74DaB59D6FE50b7105c292fB19D06",
+    "transactionIndex": 0,
+    "gasUsed": "312057",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x2d65306148626ea5384e52d42d9d1b2c6ee5b59aa2646b93c1adb9100c52b47b",
+    "transactionHash": "0xf28713778b5dcdffba0ba53a280d8b4d5930b18830af7584bfa7996f561baaa0",
+    "logs": [],
+    "blockNumber": 28995213,
+    "cumulativeGasUsed": "312057",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "solcInputHash": "c50b17345da1bb9490a5bc493b7dfa11",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"submissionId\",\"type\":\"bytes32\"},{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"debridgeId\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"receiver\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"nonce\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"chainIdTo\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint32\",\"name\":\"referralCode\",\"type\":\"uint32\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"receivedAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"fixFee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"transferFee\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"useAssetFee\",\"type\":\"bool\"},{\"internalType\":\"bool\",\"name\":\"isNativeToken\",\"type\":\"bool\"}],\"indexed\":false,\"internalType\":\"struct DeBridgeGateMock.FeeParams\",\"name\":\"feeParams\",\"type\":\"tuple\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"autoParams\",\"type\":\"bytes\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"nativeSender\",\"type\":\"address\"}],\"name\":\"Sent\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"nonce\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_tokenAddress\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_chainIdTo\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"_receiver\",\"type\":\"bytes\"},{\"internalType\":\"bytes\",\"name\":\"_permit\",\"type\":\"bytes\"},{\"internalType\":\"bool\",\"name\":\"_useAssetFee\",\"type\":\"bool\"},{\"internalType\":\"uint32\",\"name\":\"_referralCode\",\"type\":\"uint32\"},{\"internalType\":\"bytes\",\"name\":\"_autoParams\",\"type\":\"bytes\"}],\"name\":\"send\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"send(address,uint256,uint256,bytes,bytes,bool,uint32,bytes)\":{\"details\":\"Locks asset on the chain and enables withdraw on the other chain.\",\"params\":{\"_amount\":\"Amount to be transfered (note: the fee can be applyed).\",\"_autoParams\":\"Auto params for external call in target network\",\"_chainIdTo\":\"Chain id of the target chain.\",\"_permit\":\"deadline + signature for approving the spender by signature.\",\"_receiver\":\"Receiver address.\",\"_referralCode\":\"Referral code\",\"_tokenAddress\":\"Asset identifier.\",\"_useAssetFee\":\"use assets fee for pay protocol fix (work only for specials token)\"}}},\"title\":\"DeBridgeGateMock see https://docs.debridge.finance/\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/mocks/DeBridgeGateMock.sol\":\"DeBridgeGateMock\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/mocks/DeBridgeGateMock.sol\":{\"content\":\"// SPDX-License-Identifier: GPLv3\\n\\npragma solidity ^0.8.9;\\n\\n/**\\n * @title DeBridgeGateMock\\n * see https://docs.debridge.finance/\\n */\\ncontract DeBridgeGateMock {\\n\\n    uint256 public nonce;\\n\\n    struct FeeParams {\\n        uint256 receivedAmount;\\n        uint256 fixFee;\\n        uint256 transferFee;\\n        bool useAssetFee;\\n        bool isNativeToken;\\n    }\\n\\n    struct SubmissionAutoParamsTo {\\n        uint256 executionFee;\\n        uint256 flags;\\n        bytes fallbackAddress;\\n        bytes data;\\n    }\\n\\n    event Sent(\\n        bytes32 submissionId,\\n        bytes32 indexed debridgeId,\\n        uint256 amount,\\n        bytes receiver,\\n        uint256 nonce,\\n        uint256 indexed chainIdTo,\\n        uint32 referralCode,\\n        FeeParams feeParams,\\n        bytes autoParams,\\n        address nativeSender\\n        // bool isNativeToken //added to feeParams\\n    ); // emited once the native tokens are locked to be sent to the other chain\\n\\n    /// @dev Locks asset on the chain and enables withdraw on the other chain.\\n    /// @param _tokenAddress Asset identifier.\\n    /// @param _amount Amount to be transfered (note: the fee can be applyed).\\n    /// @param _chainIdTo Chain id of the target chain.\\n    /// @param _receiver Receiver address.\\n    /// @param _permit deadline + signature for approving the spender by signature.\\n    /// @param _useAssetFee use assets fee for pay protocol fix (work only for specials token)\\n    /// @param _referralCode Referral code\\n    /// @param _autoParams Auto params for external call in target network\\n    function send(\\n        address _tokenAddress,\\n        uint256 _amount,\\n        uint256 _chainIdTo,\\n        bytes memory _receiver,\\n        bytes memory _permit,\\n        bool _useAssetFee,\\n        uint32 _referralCode,\\n        bytes calldata _autoParams\\n    ) external payable {\\n        bytes32 debridgeId;\\n        FeeParams memory feeParams;\\n        uint256 amountAfterFee;\\n        SubmissionAutoParamsTo memory autoParams;\\n        bytes32 submissionId;\\n\\n        emit Sent(\\n            submissionId,\\n            debridgeId,\\n            amountAfterFee,\\n            _receiver,\\n            nonce,\\n            _chainIdTo,\\n            _referralCode,\\n            feeParams,\\n            _autoParams,\\n            msg.sender\\n        );\\n        nonce++;\\n    }\\n}\\n\",\"keccak256\":\"0x6e4897594dad5be0db88ca9e92c1436a397264fe3df2d26a1e7c250fa66c8aa3\",\"license\":\"GPLv3\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506104af806100206000396000f3fe6080604052600436106100295760003560e01c8063affed0e01461002e578063be29747614610056575b600080fd5b34801561003a57600080fd5b5061004460005481565b60405190815260200160405180910390f35b61006961006436600461025f565b61006b565b005b6040805160a081018252600080825260208201819052918101829052606081018290526080810182905260006100c26040518060800160405280600081526020016000815260200160608152602001606081525090565b60008b857fe315721819a1f353fe56de404206bdd896ab5edc7822f1804a8c4c2c4788174c83868f6000548e8b8f8f336040516101079998979695949392919061035f565b60405180910390a360008054908061011e83610450565b91905055505050505050505050505050505050565b80356001600160a01b038116811461014a57600080fd5b919050565b634e487b7160e01b600052604160045260246000fd5b600082601f83011261017657600080fd5b813567ffffffffffffffff808211156101915761019161014f565b604051601f8301601f19908116603f011681019082821181831017156101b9576101b961014f565b816040528381528660208588010111156101d257600080fd5b836020870160208301376000602085830101528094505050505092915050565b8035801515811461014a57600080fd5b803563ffffffff8116811461014a57600080fd5b60008083601f84011261022857600080fd5b50813567ffffffffffffffff81111561024057600080fd5b60208301915083602082850101111561025857600080fd5b9250929050565b60008060008060008060008060006101008a8c03121561027e57600080fd5b6102878a610133565b985060208a0135975060408a0135965060608a013567ffffffffffffffff808211156102b257600080fd5b6102be8d838e01610165565b975060808c01359150808211156102d457600080fd5b6102e08d838e01610165565b96506102ee60a08d016101f2565b95506102fc60c08d01610202565b945060e08c013591508082111561031257600080fd5b5061031f8c828d01610216565b915080935050809150509295985092959850929598565b81835281816020850137506000828201602090810191909152601f909101601f19169091010190565b60006101808b835260208b818501528160408501528a518083860152600092505b8083101561039f578b83018201518584016101a0015291810191610380565b808311156103b25760006101a082870101525b606085018b9052601f01601f1916840191506101a090506103db608085018a63ffffffff169052565b875160a0850152602088015160c0850152604088015160e0850152606088015115156101008501526080880151151561012085015280848303016101408501526104288183018789610336565b925050506104426101608301846001600160a01b03169052565b9a9950505050505050505050565b600060001982141561047257634e487b7160e01b600052601160045260246000fd5b506001019056fea26469706673582212205a3d055f9734615c5c7dee6d86250c178ab7bb4646bce962cb51e74d92de633564736f6c63430008090033",
+  "deployedBytecode": "0x6080604052600436106100295760003560e01c8063affed0e01461002e578063be29747614610056575b600080fd5b34801561003a57600080fd5b5061004460005481565b60405190815260200160405180910390f35b61006961006436600461025f565b61006b565b005b6040805160a081018252600080825260208201819052918101829052606081018290526080810182905260006100c26040518060800160405280600081526020016000815260200160608152602001606081525090565b60008b857fe315721819a1f353fe56de404206bdd896ab5edc7822f1804a8c4c2c4788174c83868f6000548e8b8f8f336040516101079998979695949392919061035f565b60405180910390a360008054908061011e83610450565b91905055505050505050505050505050505050565b80356001600160a01b038116811461014a57600080fd5b919050565b634e487b7160e01b600052604160045260246000fd5b600082601f83011261017657600080fd5b813567ffffffffffffffff808211156101915761019161014f565b604051601f8301601f19908116603f011681019082821181831017156101b9576101b961014f565b816040528381528660208588010111156101d257600080fd5b836020870160208301376000602085830101528094505050505092915050565b8035801515811461014a57600080fd5b803563ffffffff8116811461014a57600080fd5b60008083601f84011261022857600080fd5b50813567ffffffffffffffff81111561024057600080fd5b60208301915083602082850101111561025857600080fd5b9250929050565b60008060008060008060008060006101008a8c03121561027e57600080fd5b6102878a610133565b985060208a0135975060408a0135965060608a013567ffffffffffffffff808211156102b257600080fd5b6102be8d838e01610165565b975060808c01359150808211156102d457600080fd5b6102e08d838e01610165565b96506102ee60a08d016101f2565b95506102fc60c08d01610202565b945060e08c013591508082111561031257600080fd5b5061031f8c828d01610216565b915080935050809150509295985092959850929598565b81835281816020850137506000828201602090810191909152601f909101601f19169091010190565b60006101808b835260208b818501528160408501528a518083860152600092505b8083101561039f578b83018201518584016101a0015291810191610380565b808311156103b25760006101a082870101525b606085018b9052601f01601f1916840191506101a090506103db608085018a63ffffffff169052565b875160a0850152602088015160c0850152604088015160e0850152606088015115156101008501526080880151151561012085015280848303016101408501526104288183018789610336565b925050506104426101608301846001600160a01b03169052565b9a9950505050505050505050565b600060001982141561047257634e487b7160e01b600052601160045260246000fd5b506001019056fea26469706673582212205a3d055f9734615c5c7dee6d86250c178ab7bb4646bce962cb51e74d92de633564736f6c63430008090033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "send(address,uint256,uint256,bytes,bytes,bool,uint32,bytes)": {
+        "details": "Locks asset on the chain and enables withdraw on the other chain.",
+        "params": {
+          "_amount": "Amount to be transfered (note: the fee can be applyed).",
+          "_autoParams": "Auto params for external call in target network",
+          "_chainIdTo": "Chain id of the target chain.",
+          "_permit": "deadline + signature for approving the spender by signature.",
+          "_receiver": "Receiver address.",
+          "_referralCode": "Referral code",
+          "_tokenAddress": "Asset identifier.",
+          "_useAssetFee": "use assets fee for pay protocol fix (work only for specials token)"
+        }
+      }
+    },
+    "title": "DeBridgeGateMock see https://docs.debridge.finance/",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 2942,
+        "contract": "contracts/mocks/DeBridgeGateMock.sol:DeBridgeGateMock",
+        "label": "nonce",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_uint256"
+      }
+    ],
+    "types": {
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
