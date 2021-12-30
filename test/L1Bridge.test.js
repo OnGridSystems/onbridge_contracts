@@ -11,10 +11,13 @@ describe("L1Bridge", function () {
     this.oracle = accounts[3];
     this.l1holder = accounts[4];
     this.minterAdmin = accounts[5];
+    this.l2bridge = accounts[6];
 
     this.L1TokenArtifact = await ethers.getContractFactory("L1Token");
     this.L1BridgeArtifact = await ethers.getContractFactory("L1Bridge");
-    this.DeBridgeGateArtifact = await ethers.getContractFactory("DeBridgeGateMock");
+    this.DeBridgeGateArtifact = await ethers.getContractFactory(
+      "DeBridgeGateMock"
+    );
   });
 
   it("revert then trying finalizeInboundTransfer to zero address", async function () {
@@ -46,7 +49,7 @@ describe("L1Bridge", function () {
       this.l1token.address,
       this.l1debridgeGate.address,
       this.l2Token.address,
-      this.account1.address
+      this.l2bridge.address
     );
     const ORACLE_ROLE = await this.l1bridge.ORACLE_ROLE();
     await this.l1bridge.grantRole(ORACLE_ROLE, this.oracle.address);
@@ -92,11 +95,29 @@ describe("L1Bridge", function () {
           .approve(this.l1bridge.address, 100);
         this.outboundTransferTx = await this.l1bridge
           .connect(this.l1holder)
-          .outboundTransfer(this.l1holder.address, 100, {'value': 123456});
+          .outboundTransfer(this.l1holder.address, 100, { value: 123456 });
       });
 
       it("check events of outboundTransferTx transacted deBridgeGate", async function () {
-        await expect(this.outboundTransferTx).to.emit(this.l1debridgeGate, 'Sent');
+        const PROXY_WITH_SENDER_POSITION = 2;
+        const REVERT_IF_EXTERNAL_FAIL_POSITION = 1;
+        const executionFee = "30000000000000000";
+        const flags =
+          2 ** REVERT_IF_EXTERNAL_FAIL_POSITION +
+          2 ** PROXY_WITH_SENDER_POSITION;
+        const fallbackAddress = this.l2bridge.address.toLowerCase();
+        //todo: use l2 bridge interface to be consistent
+        const data = this.l1bridge.interface.encodeFunctionData(
+          "finalizeInboundTransfer",
+          [this.l1holder.address, "", 100]
+        );
+        await expect(this.outboundTransferTx).to.emit(
+          this.l1debridgeGate,
+          "Sent"
+        );
+        await expect(this.outboundTransferTx)
+          .to.emit(this.l1debridgeGate, "Log")
+          .withArgs([executionFee, flags, fallbackAddress, data]);
       });
 
       it("l1bridge is ownerOf 100 token", async function () {
