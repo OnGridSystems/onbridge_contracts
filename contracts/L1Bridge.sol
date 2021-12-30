@@ -54,7 +54,12 @@ contract L1Bridge is AccessControl {
         bytes data;
     }
 
-    constructor(IERC721 _l1Token, DeBridgeGateMock _l1DeBridgeGate, IERC721 _l2Token, address _l2bridge) {
+    constructor(
+        IERC721 _l1Token,
+        DeBridgeGateMock _l1DeBridgeGate, //todo: use IDeBridgeGate
+        IERC721 _l2Token,
+        address _l2bridge //todo: use IBridge iface
+    ) {
         require(address(_l1Token) != address(0), "ZERO_TOKEN");
         require(address(_l2Token) != address(0), "ZERO_TOKEN");
         l1Token = _l1Token;
