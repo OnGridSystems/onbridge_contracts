@@ -73,7 +73,10 @@ contract L1Bridge is AccessControl {
      * @notice Update address of L2Bridge contract
      * @param _l2bridge new L2 Bridge
      */
-    function setL2bridge(address _l2bridge) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function setL2bridge(address _l2bridge)
+        external
+        onlyRole(DEFAULT_ADMIN_ROLE)
+    {
         l2bridge = _l2bridge;
     }
 
