@@ -39,6 +39,10 @@ contract DeBridgeGateMock {
         // bool isNativeToken //added to feeParams
     ); // emited once the native tokens are locked to be sent to the other chain
 
+    event Log(
+        SubmissionAutoParamsTo params
+    );
+
     /// @dev Locks asset on the chain and enables withdraw on the other chain.
     /// @param _tokenAddress Asset identifier.
     /// @param _amount Amount to be transfered (note: the fee can be applyed).
@@ -61,11 +65,9 @@ contract DeBridgeGateMock {
         bytes32 debridgeId;
         FeeParams memory feeParams;
         uint256 amountAfterFee;
-        SubmissionAutoParamsTo memory autoParams;
         bytes32 submissionId;
-        //todo: it could be useful to decode resulting autoParams here
-        //to assert in tests
-        //autoParams = abi.decode(_autoParams, (SubmissionAutoParamsTo));
+        SubmissionAutoParamsTo memory autoParams = abi.decode(_autoParams, (SubmissionAutoParamsTo));
+        emit Log(autoParams);
 
         emit Sent(
             submissionId,
