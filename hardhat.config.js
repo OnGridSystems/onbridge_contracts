@@ -7,6 +7,7 @@ require("hardhat-deploy");
 require("hardhat-deploy-ethers");
 
 require("./tasks/1-set-default-uri.js");
+require("./tasks/2-grant-minter-role-to-oracle.js");
 
 const accounts = {
   mnemonic: `${process.env.MNEMONIC}`,

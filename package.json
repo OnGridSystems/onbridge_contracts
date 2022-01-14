@@ -37,6 +37,7 @@
     "deploy:mainnet": "hardhat deploy --network mainnet",
     "deploy:bsc_testnet": "hardhat deploy --network bsc_testnet",
     "verify:rinkeby": "hardhat etherscan-verify --network rinkeby --api-key $ETHERSCAN_API_KEY",
+    "verify:kovan": "hardhat etherscan-verify --network kovan --api-key $ETHERSCAN_API_KEY",
     "verify:mainnet": "hardhat etherscan-verify --network mainnet --api-key $ETHERSCAN_API_KEY",
     "verify:bsc_testnet": "hardhat etherscan-verify --network bsc_testnet --api-key $BSC_API_KEY",
     "lint": "echo \"\ncheck js files \n\"; npx prettier --check \"{,!(node_modules)/**/}*.{ts,tsx,js,jsx}\"; echo \"\ncheck sol files \n\"; npx prettier --check \"contracts/*.sol\"",
