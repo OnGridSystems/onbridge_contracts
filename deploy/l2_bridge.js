@@ -2,10 +2,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deployer } = await getNamedAccounts();
   const { deploy } = deployments;
 
-  // const L1Token = await ethers.getContract("L1Token")
-  const L1Token = "0x97ea372254e8bF2Da32fD2756934d798C12bef54";
-  // const L2Token = await ethers.getContract("L2Token")
-  const L2Token = "0x49d25DD6a5BC2993c1A4762F826065940909Ee5F";
+  const L1Token = "0x3630285008496F1A65652C07ED47adbab915965C";
+  const L2Token = "0x8e7839B0ac8cbf18aBd424BC4a7594E177e90BfF";
 
   console.log("deploying L2Bridge");
 
