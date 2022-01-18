@@ -7,6 +7,10 @@ require("hardhat-deploy");
 require("hardhat-deploy-ethers");
 
 require("./tasks/1-set-default-uri.js");
+require("./tasks/2-grant-l1-minter-role.js");
+require("./tasks/2-grant-l2-minter-role.js");
+require("./tasks/3-grant-l1-oracle-role.js");
+require("./tasks/3-grant-l2-oracle-role.js");
 
 const accounts = {
   mnemonic: `${process.env.MNEMONIC}`,
@@ -48,6 +52,20 @@ module.exports = {
       saveDeployments: true,
       tags: ["staging"],
       gasPrice: 10000000000,
+    },
+    ganache_eth: {
+      url: "http://127.0.0.1:8545",
+      accounts,
+      live: false,
+      saveDeployments: true,
+      tags: ["local"],
+    },
+    ganache_bsc: {
+      url: "http://127.0.0.1:8546",
+      accounts,
+      live: false,
+      saveDeployments: true,
+      tags: ["local"],
     },
   },
   etherscan: {
