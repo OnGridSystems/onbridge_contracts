@@ -26,3 +26,41 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ```
+
+## Deploy contracts
+
+set DeBridgeGate L1ChainId L2ChainId to constants.js
+
+```bash
+yarn hardhat deploy --tags L1Token --network <network>
+yarn hardhat deploy --tags L2Token --network <network> 
+```
+set l1 and l2 tokens addresses to constants.js
+
+```bash
+yarn hardhat deploy --tags L1Bridge --network <network>
+yarn hardhat deploy --tags L2Bridge --network <network> 
+```
+set l1 and l2 tokens addresses to constants.js
+
+```bash
+yarn hardhat --network <network> setContractAddressOnChainIdL1
+yarn hardhat --network <network> setContractAddressOnChainIdL2
+
+yarn hardhat --network <network> addControllingAddressL1
+yarn hardhat --network <network> addControllingAddressL2
+
+yarn hardhat --network <network> grantOracleRoleL1
+yarn hardhat --network <network> grantOracleRoleL2
+
+yarn hardhat --network <network> grantMinterRoleToL1Bridge
+yarn hardhat --network <network> grantMinterRoleToL2Bridge
+```
+
+## Bridge token
+
+set tokenId to constants.js
+```bash
+yarn hardhat --network <network> bridgeERC721TokenToL2
+yarn hardhat --network <network> bridgeERC721TokenToL1
+```

@@ -17,8 +17,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     "https://api.onbridge.io/token_images/"
   );
 
-  console.log("\nMint 20 tokens to l1holder\n");
-  for (var token = 0; token < 20; token++) {
+  console.log("\nMint 10 tokens to l1holder\n");
+  for (var token = 0; token < 10; token++) {
     await execute(
       "L1Token",
       { from: deployer, log: true },
@@ -28,12 +28,6 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     );
   }
 
-  console.log("\nl1holder balance === 20");
-  const L1Token = await ethers.getContract("L1Token");
-  balance = await L1Token.balanceOf(deployer);
-  if (balance.toNumber() === 20) {
-    console.log("true \n");
-  }
 };
 
 module.exports.tags = ["L1Token"];

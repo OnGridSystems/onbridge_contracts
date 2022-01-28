@@ -47,5 +47,9 @@
     "lint:sol:fix": "npx prettier --write \"contracts/*.sol\"",
     "prettier": "prettier -c 'contracts/**/*.sol'",
     "prettier:fix": "prettier --write 'contracts/**/*.sol'"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts-upgradeable": "^4.4.2",
+    "@openzeppelin/hardhat-upgrades": "^1.13.0"
   }
 }
