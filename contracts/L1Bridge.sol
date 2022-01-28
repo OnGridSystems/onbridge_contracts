@@ -4,7 +4,8 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
-import "./mocks/DeBridgeGateMock.sol";
+import "./BridgeAppBase.sol";
+import "./forkedInterfaces/IDeBridgeGate.sol";
 
 /**
  * @title Bridge Layer 1 contract
@@ -14,12 +15,11 @@ import "./mocks/DeBridgeGateMock.sol";
  * @author OnBridge IO
  **/
 
-contract L1Bridge is AccessControl {
+contract L1Bridge is BridgeAppBase {
+    using Flags for uint256;
+
     // Original token on L1 network (Ethereum mainnet #1)
     IERC721 public l1Token;
-
-    DeBridgeGateMock public l1DeBridgeGate;
-    address public l2bridge;
 
     // L2 mintable + burnable token that acts as a twin of L1 asset
     // For informational purposes only
@@ -40,44 +40,17 @@ contract L1Bridge is AccessControl {
         uint256 _amount
     );
 
-    //DeBridge autoparamsTo flags positions
-    uint256 constant PROXY_WITH_SENDER = 2;
-    uint256 constant REVERT_IF_EXTERNAL_FAIL = 1;
-
-    //DeBridge SubmissionAutoParamsTo data structure.
-    //todo: should be moved to the separate library
-    //with its coders/decoders
-    struct SubmissionAutoParamsTo {
-        uint256 executionFee;
-        uint256 flags;
-        bytes fallbackAddress;
-        bytes data;
-    }
-
     constructor(
         IERC721 _l1Token,
-        DeBridgeGateMock _l1DeBridgeGate, //todo: use IDeBridgeGate
         IERC721 _l2Token,
-        address _l2bridge //todo: use IBridge iface
+        IDeBridgeGate _deBridgeGate
     ) {
         require(address(_l1Token) != address(0), "ZERO_TOKEN");
         require(address(_l2Token) != address(0), "ZERO_TOKEN");
         l1Token = _l1Token;
-        l1DeBridgeGate = _l1DeBridgeGate;
         l2Token = _l2Token;
-        l2bridge = _l2bridge;
+        deBridgeGate = _deBridgeGate;
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-    }
-
-    /**
-     * @notice Update address of L2Bridge contract
-     * @param _l2bridge new L2 Bridge
-     */
-    function setL2bridge(address _l2bridge)
-        external
-        onlyRole(DEFAULT_ADMIN_ROLE)
-    {
-        l2bridge = _l2bridge;
     }
 
     /**
@@ -86,32 +59,44 @@ contract L1Bridge is AccessControl {
      * @param _to L2 address of destination
      * @param _id Token id that will be bridged
      */
-    function outboundTransfer(address _to, uint256 _id) external payable {
+    function outboundTransfer(
+        address _to,
+        uint256 _id,
+        uint256 _chainIdTo,
+        address _fallback,
+        uint256 _executionFee
+    ) external payable whenNotPaused {
+
+        address contractAddressTo = chainIdToContractAddress[_chainIdTo];
+        if (contractAddressTo == address(0)) {
+            revert ChainToIsNotSupported();
+        }
+
         l1Token.transferFrom(msg.sender, address(this), _id);
-        uint256 chainIdTo = 97;
-        bytes memory permit = "";
-        uint32 referralCode = 0;
-        SubmissionAutoParamsTo memory autoParams;
-        autoParams.flags = 2**REVERT_IF_EXTERNAL_FAIL + 2**PROXY_WITH_SENDER;
-        autoParams.executionFee = 30000000000000000;
-        autoParams.fallbackAddress = abi.encodePacked(l2bridge);
+        emit DepositInitiated(address(l1Token), msg.sender, _to, _id);
+
+        IDeBridgeGate.SubmissionAutoParamsTo memory autoParams;
+        autoParams.flags = autoParams.flags.setFlag(Flags.REVERT_IF_EXTERNAL_FAIL, true);
+        autoParams.flags = autoParams.flags.setFlag(Flags.PROXY_WITH_SENDER, true);
+        autoParams.executionFee = _executionFee;
+        autoParams.fallbackAddress = abi.encodePacked(_fallback);
         autoParams.data = abi.encodeWithSignature(
             "finalizeInboundTransfer(address,string,uint256)",
             _to,
             "",
             _id
         );
-        l1DeBridgeGate.send{value: msg.value}(
+
+        deBridgeGate.send{value: msg.value}(
             address(0),
             msg.value,
-            chainIdTo,
-            abi.encodePacked(l2bridge),
-            permit,
+            _chainIdTo,
+            abi.encodePacked(contractAddressTo),
+            "",
             false,
-            referralCode,
+            0,
             abi.encode(autoParams)
         );
-        emit DepositInitiated(address(l1Token), msg.sender, _to, _id);
     }
 
     /**
@@ -124,8 +109,9 @@ contract L1Bridge is AccessControl {
         address _to,
         string memory _l2Tx,
         uint256 _id
-    ) external onlyRole(ORACLE_ROLE) {
+    ) external onlyControllingAddress whenNotPaused {
         require(_to != address(0), "NO_RECEIVER");
+
         l1Token.transferFrom(address(this), _to, _id);
         emit WithdrawalFinalized(address(l1Token), _l2Tx, _to, _id);
     }

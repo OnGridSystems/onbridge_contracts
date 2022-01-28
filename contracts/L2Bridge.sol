@@ -4,6 +4,9 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
+import "./BridgeAppBase.sol";
+import "./forkedInterfaces/IDeBridgeGate.sol";
+
 /**
  * @dev Extension of {ERC721} that allows to mint and destroy token
  */
@@ -21,7 +24,9 @@ interface IERC721Bridged is IERC721 {
  * @author OnBridge IO
  **/
 
-contract L2Bridge is AccessControl {
+contract L2Bridge is BridgeAppBase {
+    using Flags for uint256;
+
     // Original token on L1 network (Ethereum mainnet #1)
     IERC721 public l1Token;
 
@@ -44,11 +49,16 @@ contract L2Bridge is AccessControl {
         uint256 _id
     );
 
-    constructor(IERC721 _l1Token, IERC721Bridged _l2Token) {
+    constructor(
+        IERC721 _l1Token,
+        IERC721Bridged _l2Token,
+        IDeBridgeGate _deBridgeGate
+    ) {
         require(address(_l1Token) != address(0), "ZERO_TOKEN");
         require(address(_l2Token) != address(0), "ZERO_TOKEN");
         l1Token = _l1Token;
         l2Token = _l2Token;
+        deBridgeGate = _deBridgeGate;
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
@@ -62,7 +72,7 @@ contract L2Bridge is AccessControl {
         address _to,
         string memory _l1Tx,
         uint256 _id
-    ) external onlyRole(ORACLE_ROLE) {
+    ) external onlyControllingAddress whenNotPaused {
         require(_to != address(0), "Token cannot be the zero address");
 
         l2Token.mint(_to, _id);
@@ -74,9 +84,44 @@ contract L2Bridge is AccessControl {
      * @param _to L1 address of destination
      * @param _id Token id being withdrawn
      */
-    function outboundTransfer(address _to, uint256 _id) external {
+    function outboundTransfer(
+        address _to,
+        uint256 _id,
+        uint256 _chainIdTo,
+        address _fallback,
+        uint256 _executionFee
+    ) external payable whenNotPaused {
+
+        address contractAddressTo = chainIdToContractAddress[_chainIdTo];
+        if (contractAddressTo == address(0)) {
+            revert ChainToIsNotSupported();
+        }
+
         l2Token.transferFrom(msg.sender, address(this), _id);
         l2Token.burn(_id);
         emit WithdrawalInitiated(address(l1Token), msg.sender, _to, _id);
+
+        IDeBridgeGate.SubmissionAutoParamsTo memory autoParams;
+        autoParams.flags = autoParams.flags.setFlag(Flags.REVERT_IF_EXTERNAL_FAIL, true);
+        autoParams.flags = autoParams.flags.setFlag(Flags.PROXY_WITH_SENDER, true);
+        autoParams.executionFee = _executionFee;
+        autoParams.fallbackAddress = abi.encodePacked(_fallback);
+        autoParams.data = abi.encodeWithSignature(
+            "finalizeInboundTransfer(address,string,uint256)",
+            _to,
+            "",
+            _id
+        );
+
+        deBridgeGate.send{value: msg.value}(
+            address(0),
+            msg.value,
+            _chainIdTo,
+            abi.encodePacked(contractAddressTo),
+            "",
+            false,
+            0,
+            abi.encode(autoParams)
+        );
     }
 }

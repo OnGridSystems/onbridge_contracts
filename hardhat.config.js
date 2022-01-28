@@ -5,9 +5,18 @@ require("@nomiclabs/hardhat-etherscan");
 require("solidity-coverage");
 require("hardhat-deploy");
 require("hardhat-deploy-ethers");
+require('@openzeppelin/hardhat-upgrades');
 
-require("./tasks/1-set-default-uri.js");
-require("./tasks/2-grant-minter-role-to-oracle.js");
+require("./tasks/addControllingAddressL2.js");
+require("./tasks/addControllingAddressL1.js");
+require("./tasks/bridgeERC721TokenToL2.js");
+require("./tasks/bridgeERC721TokenToL1.js");
+require("./tasks/grantMinterRoleToL1Bridge.js");
+require("./tasks/grantMinterRoleToL2Bridge.js");
+require("./tasks/grantOracleRoleL2.js");
+require("./tasks/grantOracleRoleL1.js");
+require("./tasks/setContractAddressOnChainIdL2.js");
+require("./tasks/setContractAddressOnChainIdL1.js");
 
 const accounts = {
   mnemonic: `${process.env.MNEMONIC}`,
@@ -45,6 +54,8 @@ module.exports = {
       url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
       accounts,
       chainId: 97,
+      gasPrice: 10000000000,
+      gas: 2100000,
       live: true,
       saveDeployments: true,
       tags: ["staging"],
@@ -56,7 +67,7 @@ module.exports = {
       live: true,
       saveDeployments: true,
       gasPrice: 10000000000,
-    },
+    }
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
