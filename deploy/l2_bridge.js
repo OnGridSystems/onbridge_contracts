@@ -2,7 +2,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deployer } = await getNamedAccounts();
   const { deploy } = deployments;
 
-  const { L1Token, L2Token, DeBridgeGate } = require("../constants")
+  const { L1Token, L2Token, DeBridgeGate } = require("../constants");
 
   console.log("deploying L2Bridge");
 

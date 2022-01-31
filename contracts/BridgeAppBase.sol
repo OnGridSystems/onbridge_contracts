@@ -9,7 +9,11 @@ import "./interfaces/ICallProxy.sol";
 import "./forkedInterfaces/IDeBridgeGate.sol";
 import "./libraries/Flags.sol";
 
-abstract contract BridgeAppBase is Initializable, AccessControlUpgradeable, PausableUpgradeable {
+abstract contract BridgeAppBase is
+    Initializable,
+    AccessControlUpgradeable,
+    PausableUpgradeable
+{
     using AddressUpgradeable for address payable;
 
     /* ========== STATE VARIABLES ========== */
@@ -21,10 +25,10 @@ abstract contract BridgeAppBase is Initializable, AccessControlUpgradeable, Paus
     /// Controlling address is the one that is allowed to call the contract
     /// By default it should be this contract address on sending chain and may be another depending
     /// on the contract logic
-    mapping(uint256 => mapping(bytes => bool)) public isAddressFromChainIdControlling;
+    mapping(uint256 => mapping(bytes => bool))
+        public isAddressFromChainIdControlling;
     /// @dev Maps chainId to address of this contract on that chain
     mapping(uint256 => address) public chainIdToContractAddress;
-
 
     /* ========== ERRORS ========== */
 
@@ -65,7 +69,7 @@ abstract contract BridgeAppBase is Initializable, AccessControlUpgradeable, Paus
 
         bytes memory nativeSender = callProxy.submissionNativeSender();
         uint256 chainIdFrom = callProxy.submissionChainIdFrom();
-        if(!isAddressFromChainIdControlling[chainIdFrom][nativeSender]) {
+        if (!isAddressFromChainIdControlling[chainIdFrom][nativeSender]) {
             revert NativeSenderBadRole(nativeSender, chainIdFrom);
         }
         _;
@@ -73,7 +77,10 @@ abstract contract BridgeAppBase is Initializable, AccessControlUpgradeable, Paus
 
     /* ========== CONSTRUCTOR  ========== */
 
-    function __BridgeAppBase_init(IDeBridgeGate _deBridgeGate) internal initializer {
+    function __BridgeAppBase_init(IDeBridgeGate _deBridgeGate)
+        internal
+        initializer
+    {
         __Context_init_unchained();
         __ERC165_init_unchained();
         __AccessControl_init_unchained();
@@ -81,7 +88,10 @@ abstract contract BridgeAppBase is Initializable, AccessControlUpgradeable, Paus
         __BridgeAppBase_init_unchained(_deBridgeGate);
     }
 
-    function __BridgeAppBase_init_unchained(IDeBridgeGate _deBridgeGate) internal initializer {
+    function __BridgeAppBase_init_unchained(IDeBridgeGate _deBridgeGate)
+        internal
+        initializer
+    {
         deBridgeGate = _deBridgeGate;
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
@@ -90,7 +100,7 @@ abstract contract BridgeAppBase is Initializable, AccessControlUpgradeable, Paus
         bytes memory _nativeSender,
         uint256 _chainIdFrom
     ) external onlyAdmin {
-        if(isAddressFromChainIdControlling[_chainIdFrom][_nativeSender]) {
+        if (isAddressFromChainIdControlling[_chainIdFrom][_nativeSender]) {
             revert AddressAlreadyAdded();
         }
 
@@ -103,7 +113,7 @@ abstract contract BridgeAppBase is Initializable, AccessControlUpgradeable, Paus
         bytes memory _nativeSender,
         uint256 _chainIdFrom
     ) external onlyAdmin {
-        if(!isAddressFromChainIdControlling[_chainIdFrom][_nativeSender]) {
+        if (!isAddressFromChainIdControlling[_chainIdFrom][_nativeSender]) {
             revert RemovingMissingAddress();
         }
 
@@ -112,14 +122,13 @@ abstract contract BridgeAppBase is Initializable, AccessControlUpgradeable, Paus
         emit ControllingAddressUpdated(_nativeSender, _chainIdFrom, false);
     }
 
-    function setContractAddressOnChainId(
-        address _address,
-        uint256 _chainIdTo
-    ) external onlyAdmin {
+    function setContractAddressOnChainId(address _address, uint256 _chainIdTo)
+        external
+        onlyAdmin
+    {
         chainIdToContractAddress[_chainIdTo] = _address;
         emit ContractAddressOnChainIdUpdated(_address, _chainIdTo);
     }
-
 
     /// @dev Stop all transfers.
     function pause() external onlyAdmin {
@@ -136,7 +145,11 @@ abstract contract BridgeAppBase is Initializable, AccessControlUpgradeable, Paus
     /// @dev Calculates asset identifier.
     /// @param _chainId Current chain id.
     /// @param _tokenAddress Address of the asset on the other chain.
-    function getDebridgeId(uint256 _chainId, address _tokenAddress) public pure returns (bytes32) {
+    function getDebridgeId(uint256 _chainId, address _tokenAddress)
+        public
+        pure
+        returns (bytes32)
+    {
         return keccak256(abi.encodePacked(_chainId, _tokenAddress));
     }
 
@@ -153,6 +166,7 @@ abstract contract BridgeAppBase is Initializable, AccessControlUpgradeable, Paus
             cid := chainid()
         }
     }
+
     // ============ Version Control ============
     function version() external pure returns (uint256) {
         return 101; // 1.0.1

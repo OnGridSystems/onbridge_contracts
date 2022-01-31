@@ -12,13 +12,12 @@ const L2ChainId = 97;
 const tokenId = 0;
 
 module.exports = {
-    L1Token,
-    L2Token,
-    L1BridgeAddress,
-    L2BridgeAddress,
-    DeBridgeGate,
-    L1ChainId,
-    L2ChainId,
-    tokenId
-}
-
+  L1Token,
+  L2Token,
+  L1BridgeAddress,
+  L2BridgeAddress,
+  DeBridgeGate,
+  L1ChainId,
+  L2ChainId,
+  tokenId,
+};

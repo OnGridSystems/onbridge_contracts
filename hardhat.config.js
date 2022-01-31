@@ -1,11 +1,11 @@
+require("@nomiclabs/hardhat-etherscan");
+require("@nomiclabs/hardhat-solhint");
 require("@nomiclabs/hardhat-truffle5");
 require("@nomiclabs/hardhat-waffle");
-require("@nomiclabs/hardhat-solhint");
-require("@nomiclabs/hardhat-etherscan");
-require("solidity-coverage");
+require("@openzeppelin/hardhat-upgrades");
 require("hardhat-deploy");
 require("hardhat-deploy-ethers");
-require('@openzeppelin/hardhat-upgrades');
+require("solidity-coverage");
 
 require("./tasks/addControllingAddressL2.js");
 require("./tasks/addControllingAddressL1.js");
@@ -67,7 +67,7 @@ module.exports = {
       live: true,
       saveDeployments: true,
       gasPrice: 10000000000,
-    }
+    },
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
