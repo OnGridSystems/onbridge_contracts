@@ -27,7 +27,6 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
       token
     );
   }
-
 };
 
 module.exports.tags = ["L1Token"];

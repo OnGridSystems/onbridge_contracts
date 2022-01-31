@@ -25,8 +25,6 @@ contract L1Bridge is BridgeAppBase {
     // For informational purposes only
     IERC721 public l2Token;
 
-    bytes32 public constant ORACLE_ROLE = keccak256("ORACLE_ROLE");
-
     event DepositInitiated(
         address indexed l1Token,
         address indexed _from,
@@ -47,6 +45,7 @@ contract L1Bridge is BridgeAppBase {
     ) {
         require(address(_l1Token) != address(0), "ZERO_TOKEN");
         require(address(_l2Token) != address(0), "ZERO_TOKEN");
+        require(address(_deBridgeGate) != address(0), "ZERO_DEBRIDGEGATE");
         l1Token = _l1Token;
         l2Token = _l2Token;
         deBridgeGate = _deBridgeGate;
@@ -66,7 +65,6 @@ contract L1Bridge is BridgeAppBase {
         address _fallback,
         uint256 _executionFee
     ) external payable whenNotPaused {
-
         address contractAddressTo = chainIdToContractAddress[_chainIdTo];
         if (contractAddressTo == address(0)) {
             revert ChainToIsNotSupported();
@@ -76,8 +74,14 @@ contract L1Bridge is BridgeAppBase {
         emit DepositInitiated(address(l1Token), msg.sender, _to, _id);
 
         IDeBridgeGate.SubmissionAutoParamsTo memory autoParams;
-        autoParams.flags = autoParams.flags.setFlag(Flags.REVERT_IF_EXTERNAL_FAIL, true);
-        autoParams.flags = autoParams.flags.setFlag(Flags.PROXY_WITH_SENDER, true);
+        autoParams.flags = autoParams.flags.setFlag(
+            Flags.REVERT_IF_EXTERNAL_FAIL,
+            true
+        );
+        autoParams.flags = autoParams.flags.setFlag(
+            Flags.PROXY_WITH_SENDER,
+            true
+        );
         autoParams.executionFee = _executionFee;
         autoParams.fallbackAddress = abi.encodePacked(_fallback);
         autoParams.data = abi.encodeWithSignature(
@@ -100,7 +104,7 @@ contract L1Bridge is BridgeAppBase {
     }
 
     /**
-     * @notice Finalizes withdrawal initiated on L2. callable only by ORACLE_ROLE
+     * @notice Finalizes withdrawal initiated on L2.
      * @param _to L1 address of destination
      * @param _id Token id being withdrawn
      * @param _l2Tx Tx hash of `L2Bridge.outboundTransfer` on L2 side

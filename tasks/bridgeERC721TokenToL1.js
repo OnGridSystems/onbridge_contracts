@@ -1,6 +1,11 @@
 const { task } = require("hardhat/config");
 
-const { L1BridgeAddress, L2BridgeAddress, L1ChainId, tokenId } = require("../constants")
+const {
+  L1BridgeAddress,
+  L2BridgeAddress,
+  L1ChainId,
+  tokenId,
+} = require("../constants");
 
 task("bridgeERC721TokenToL1", "outbound transfer from l2 chain").setAction(
   async (_, hre) => {
@@ -9,18 +14,14 @@ task("bridgeERC721TokenToL1", "outbound transfer from l2 chain").setAction(
     const L2BridgeInstance = await ethers.getContract("L2Bridge");
     const { deployer } = await getNamedAccounts();
 
-    console.log("approve token for l2 bridge")
+    console.log("approve token for l2 bridge");
     console.log(
-        await (
-          await L2TokenInstance.approve(
-            L2BridgeAddress,
-            tokenId,
-            {
-              from: deployer,
-            }
-          )
-        ).wait()
-      );
+      await (
+        await L2TokenInstance.approve(L2BridgeAddress, tokenId, {
+          from: deployer,
+        })
+      ).wait()
+    );
 
     console.log("outbound transfer from l2 chain");
     console.log(
@@ -33,7 +34,7 @@ task("bridgeERC721TokenToL1", "outbound transfer from l2 chain").setAction(
           ethers.utils.parseEther("0.01"),
           {
             from: deployer,
-            value: ethers.utils.parseEther("0.03")
+            value: ethers.utils.parseEther("0.03"),
           }
         )
       ).wait()
