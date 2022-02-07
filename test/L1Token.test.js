@@ -23,23 +23,13 @@ describe("L1Token", function () {
     ).to.be.reverted;
   });
 
-  it("mint reverts if called by wrong role", async function () {
-    await expect(
-      this.l1token.connect(this.provider).mint(this.other.address, 1)
-    ).to.be.reverted;
-  });
-
   it("tokenURI reverts if requested URI query for nonexistent token", async function () {
     await expect(this.l1token.connect(this.provider).tokenURI(1)).to.be
       .reverted;
   });
 
-  describe("grant minter and admin role", function () {
+  describe("grant admin role", function () {
     beforeEach(async function () {
-      await this.l1token.grantRole(
-        await this.l1token.MINTER_ROLE(),
-        this.grantedAdmin.address
-      );
       await this.l1token.grantRole(
         await this.l1token.DEFAULT_ADMIN_ROLE(),
         this.grantedAdmin.address
@@ -59,9 +49,7 @@ describe("L1Token", function () {
 
     describe("mint first token", function () {
       beforeEach(async function () {
-        await this.l1token
-          .connect(this.grantedAdmin)
-          .mint(this.other.address, 0);
+        await this.l1token.connect(this.grantedAdmin).mint(this.other.address);
       });
 
       it("zero token has tokenURI '/0.json' after its mint", async function () {
