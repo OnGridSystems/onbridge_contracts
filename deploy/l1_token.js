@@ -14,18 +14,12 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     "L1Token",
     { from: deployer, log: true },
     "setDefaultUri",
-    "https://api.onbridge.io/token_images/"
+    "https://api.onbridge.io/token_images"
   );
 
   console.log("\nMint 10 tokens to l1holder\n");
   for (var token = 0; token < 10; token++) {
-    await execute(
-      "L1Token",
-      { from: deployer, log: true },
-      "mint",
-      deployer,
-      token
-    );
+    await execute("L1Token", { from: deployer, log: true }, "mint", deployer);
   }
 };
 

@@ -15,12 +15,9 @@ contract L1Token is ERC721Enumerable, AccessControl {
 
     // If tokenId doesn't match any configured batch, defaultURI parameters are used.
     string public defaultUri;
-    // Roles that can modify individual characteristics
-    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
     constructor() ERC721("Grizzly", "GRZL") {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
-        _setupRole(MINTER_ROLE, _msgSender());
     }
 
     /**
@@ -49,6 +46,7 @@ contract L1Token is ERC721Enumerable, AccessControl {
         returns (string memory)
     {
         require(_exists(tokenId), "URI query for nonexistent token");
+        tokenId %= 16;
         return
             string(
                 abi.encodePacked(defaultUri, "/", tokenId.toString(), ".json")
@@ -56,11 +54,11 @@ contract L1Token is ERC721Enumerable, AccessControl {
     }
 
     /**
-     * @dev Mints a specific token (with known id) to the given address
+     * @dev Mints a specific to the given address
      * @param to the receiver
-     * @param mintIndex the tokenId to mint
      */
-    function mint(address to, uint256 mintIndex) public onlyRole(MINTER_ROLE) {
+    function mint(address to) public {
+        uint256 mintIndex = totalSupply();
         _safeMint(to, mintIndex);
     }
 
