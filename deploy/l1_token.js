@@ -14,7 +14,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     "L1Token",
     { from: deployer, log: true },
     "setDefaultUri",
-    "https://api.onbridge.io/token_images"
+    "https://gateway.pinata.cloud/ipfs/QmUFbUk5jzb6saByCcWinsJfy9ahziLf8V41LUMhCQDcJN"
   );
 
   console.log("\nMint 10 tokens to l1holder\n");
