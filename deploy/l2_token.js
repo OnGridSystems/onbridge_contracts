@@ -13,7 +13,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     "L2Token",
     { from: deployer, log: true },
     "setDefaultUri",
-    "https://imgur.com/gallery/"
+    "https://gateway.pinata.cloud/ipfs/QmUFbUk5jzb6saByCcWinsJfy9ahziLf8V41LUMhCQDcJN"
   );
 };
 
