@@ -2,16 +2,16 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deployer } = await getNamedAccounts();
   const { deploy } = deployments;
 
-  const { L1Token, L2Token, DeBridgeGate } = require("../constants");
+  const { bscToken, ethToken, DeBridgeGate } = require("../constants");
 
-  console.log("deploying L1Bridge");
+  console.log("deploying ethBridge");
 
-  await deploy("L1Bridge", {
+  await deploy("L2Bridge", {
     from: deployer,
     log: true,
-    args: [L1Token, L2Token, DeBridgeGate],
+    args: [bscToken, ethToken, DeBridgeGate],
     skipIfAlreadyDeployed: true,
   });
 };
 
-module.exports.tags = ["L1Bridge"];
+module.exports.tags = ["ethBridge"];

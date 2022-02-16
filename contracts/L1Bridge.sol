@@ -21,10 +21,6 @@ contract L1Bridge is BridgeAppBase {
     // Original token on L1 network (Ethereum mainnet #1)
     IERC721 public l1Token;
 
-    // L2 mintable + burnable token that acts as a twin of L1 asset
-    // For informational purposes only
-    IERC721 public l2Token;
-
     event DepositInitiated(
         address indexed l1Token,
         address indexed _from,
@@ -40,14 +36,11 @@ contract L1Bridge is BridgeAppBase {
 
     constructor(
         IERC721 _l1Token,
-        IERC721 _l2Token,
         IDeBridgeGate _deBridgeGate
     ) {
         require(address(_l1Token) != address(0), "ZERO_TOKEN");
-        require(address(_l2Token) != address(0), "ZERO_TOKEN");
         require(address(_deBridgeGate) != address(0), "ZERO_DEBRIDGEGATE");
         l1Token = _l1Token;
-        l2Token = _l2Token;
         deBridgeGate = _deBridgeGate;
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }

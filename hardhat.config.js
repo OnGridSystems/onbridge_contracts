@@ -7,16 +7,18 @@ require("hardhat-deploy");
 require("hardhat-deploy-ethers");
 require("solidity-coverage");
 
-require("./tasks/addControllingAddressL2.js");
-require("./tasks/addControllingAddressL1.js");
-require("./tasks/bridgeERC721TokenToL2.js");
-require("./tasks/bridgeERC721TokenToL1.js");
-require("./tasks/grantMinterRoleToL1Bridge.js");
-require("./tasks/grantMinterRoleToL2Bridge.js");
-require("./tasks/grantOracleRoleL2.js");
-require("./tasks/grantOracleRoleL1.js");
-require("./tasks/setContractAddressOnChainIdL2.js");
-require("./tasks/setContractAddressOnChainIdL1.js");
+require("./tasks/addControllingAddressBsc.js");
+require("./tasks/addControllingAddressEth.js");
+require("./tasks/addControllingAddressPolygon.js");
+require("./tasks/bridgeERC721TokenToBsc.js");
+require("./tasks/bridgeERC721TokenToEth.js");
+require("./tasks/bridgeERC721TokenToPolygon.js");
+require("./tasks/grantMinterRoleToEthBridge.js");
+require("./tasks/grantMinterRoleToPolygonBridge.js");
+require("./tasks/setContractAddressOnChainIdBsc.js");
+require("./tasks/setContractAddressOnChainIdEth.js");
+require("./tasks/setContractAddressOnChainIdPolygon.js");
+
 
 const accounts = {
   mnemonic: `${process.env.MNEMONIC}`,
@@ -51,7 +53,7 @@ module.exports = {
       gasPrice: 8000000000,
     },
     bsc_testnet: {
-      url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
+      url: "https://data-seed-prebsc-1-s2.binance.org:8545/",
       accounts,
       chainId: 97,
       gasPrice: 10000000000,
@@ -67,6 +69,15 @@ module.exports = {
       live: true,
       saveDeployments: true,
       gasPrice: 10000000000,
+    },
+    mumbai: {
+      url: "https://rpc-mumbai.matic.today",
+      accounts,
+      chainId: 80001,
+      live: true,
+      saveDeployments: true,
+      gas: 2100000,
+      gasPrice: 8000000000
     },
   },
   etherscan: {

@@ -17,4 +17,4 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   );
 };
 
-module.exports.tags = ["L2Token"];
+module.exports.tags = ["polygonToken"];
