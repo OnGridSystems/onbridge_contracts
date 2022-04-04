@@ -6,13 +6,13 @@ const bscChainId = 97;
 const ethChainId = 42;
 const polygonChainId = 80001;
 
-const bscToken = "0xe6847645B1832B2923e5938ec482f2b0EfA6DE4c";
-const ethToken = "0x45c037263752F1d1F8cA94fAff339A0178C06EEb";
-const polygonToken = "0xc303c254529542bfCbCCE275Bb8c819fD8fFdb03";
+const bscToken = "0xbceEEA68fC0E50e0DE2e5473dE23CED1a7397629";
+const ethToken = "0xf2391B61D7CC9Bb31D8BeC8Df7d05B3B5Dd97939";
+const polygonToken = "0xeddB5E4b1199Cc409eaFB98EcF1D7f2b18fA51Af";
 
-const bscBridge = "0x099e3307be3b694e8C7dBc54E2ecB8897806BD2A";
-const ethBridge = "0xBa32a080612eA433FD64F4C5c99c73666149e997";
-const polygonBridge = "0xF6C9DaF74f99388c2C666b0468a9f1D1601c0013";
+const bscBridge = "0xcA2DaaDAD22BD98c020481A360344B31cD63251e";
+const ethBridge = "0x5EE16fBe8f8dBB2bb39f3ac2319bE891c2685EA4";
+const polygonBridge = "0x89903eDda80616c9fC0bc01dE408eB8AfC75f09d";
 
 module.exports = {
   DeBridgeGate,
