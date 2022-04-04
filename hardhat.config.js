@@ -53,7 +53,7 @@ module.exports = {
       gasPrice: 8000000000,
     },
     bsc_testnet: {
-      url: "https://data-seed-prebsc-1-s2.binance.org:8545/",
+      url: "https://data-seed-prebsc-2-s2.binance.org:8545/",
       accounts,
       chainId: 97,
       gasPrice: 10000000000,
@@ -71,13 +71,13 @@ module.exports = {
       gasPrice: 10000000000,
     },
     mumbai: {
-      url: "https://rpc-mumbai.matic.today",
+      url: "https://matic-mumbai.chainstacklabs.com",
       accounts,
       chainId: 80001,
       live: true,
       saveDeployments: true,
       gas: 2100000,
-      gasPrice: 8000000000
+      gasPrice: 80000000000,
     },
   },
   etherscan: {
