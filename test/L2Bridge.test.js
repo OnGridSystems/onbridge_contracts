@@ -24,7 +24,6 @@ describe("L2Bridge", function () {
     await expect(
       this.L2BridgeArtifact.deploy(
         constants.ZERO_ADDRESS,
-        this.account1.address,
         this.account1.address
       )
     ).to.be.revertedWith("ZERO_TOKEN");
@@ -33,17 +32,6 @@ describe("L2Bridge", function () {
   it("revert then trying finalizeInboundTransfer to zero address", async function () {
     await expect(
       this.L2BridgeArtifact.deploy(
-        this.account1.address,
-        constants.ZERO_ADDRESS,
-        this.account1.address
-      )
-    ).to.be.revertedWith("ZERO_TOKEN");
-  });
-
-  it("revert then trying finalizeInboundTransfer to zero address", async function () {
-    await expect(
-      this.L2BridgeArtifact.deploy(
-        this.account1.address,
         this.account1.address,
         constants.ZERO_ADDRESS
       )
@@ -57,7 +45,7 @@ describe("L2Bridge", function () {
     this.l2debridgeGate = await this.DeBridgeGateArtifact.deploy();
     this.l2bridge = await this.L2BridgeArtifact.deploy(
       this.l2token.address,
-      this.l1Token.address,
+
       this.l2debridgeGate.address
     );
 
@@ -91,7 +79,7 @@ describe("L2Bridge", function () {
 
   describe("add controlling address to l2bridge", function () {
     beforeEach(async function () {
-      // TODO replase token income test branch
+      // TODO replae token income test branch
       await this.l2token
         .connect(this.minterAdmin)
         .mint(this.l2holder.address, 100);
@@ -105,27 +93,14 @@ describe("L2Bridge", function () {
         .addControllingAddress(this.l1bridge.address, this.l1ChainId);
     });
 
-    describe("approving 100 token to l2 bridge and outboundTransfer to l2 bridge", function () {
+    describe("approving token id 100 to l2 bridge and outboundTransfer to l2 bridge", function () {
       beforeEach(async function () {
         await this.l2token
           .connect(this.l2holder)
           .approve(this.l2bridge.address, 100);
       });
 
-      it("100 token can be outbounded to l2 bridge", async function () {
-        await this.l2bridge
-          .connect(this.l2holder)
-          .outboundTransfer(
-            this.l2holder.address,
-            100,
-            this.l1ChainId,
-            this.l1bridge.address,
-            ethers.utils.parseEther("0.01"),
-            { value: ethers.utils.parseEther("0.03") }
-          );
-      });
-
-      describe("outboundTransfer 100 token to l2 bridge", function () {
+      describe("outboundTransfer token id 100 to l2 bridge", function () {
         beforeEach(async function () {
           this.outboundTransferTx = await this.l2bridge
             .connect(this.l2holder)
@@ -161,12 +136,9 @@ describe("L2Bridge", function () {
             .withArgs([executionFee, flags, fallbackAddress, data]);
         });
 
-        it("l2bridge is ownerOf 100 token", async function () {
-          expect(await this.l2token.ownerOf(100)).to.equal(
-            this.l2bridge.address
-          );
+        it("l2bridge is ownerOf token id 100", async function () {
           expect(await this.l2token.balanceOf(this.l2bridge.address)).to.equal(
-            "1"
+            "0"
           );
         });
       });

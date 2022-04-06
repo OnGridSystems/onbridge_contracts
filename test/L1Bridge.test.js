@@ -24,7 +24,6 @@ describe("L1Bridge", function () {
     await expect(
       this.L1BridgeArtifact.deploy(
         constants.ZERO_ADDRESS,
-        this.account1.address,
         this.account1.address
       )
     ).to.be.revertedWith("ZERO_TOKEN");
@@ -33,17 +32,6 @@ describe("L1Bridge", function () {
   it("revert then trying finalizeInboundTransfer to zero address", async function () {
     await expect(
       this.L1BridgeArtifact.deploy(
-        this.account1.address,
-        constants.ZERO_ADDRESS,
-        this.account1.address
-      )
-    ).to.be.revertedWith("ZERO_TOKEN");
-  });
-
-  it("revert then trying finalizeInboundTransfer to zero address", async function () {
-    await expect(
-      this.L1BridgeArtifact.deploy(
-        this.account1.address,
         this.account1.address,
         constants.ZERO_ADDRESS
       )
@@ -57,7 +45,6 @@ describe("L1Bridge", function () {
     this.l1debridgeGate = await this.DeBridgeGateArtifact.deploy();
     this.l1bridge = await this.L1BridgeArtifact.deploy(
       this.l1token.address,
-      this.l2Token.address,
       this.l1debridgeGate.address
     );
 
@@ -68,10 +55,6 @@ describe("L1Bridge", function () {
     await this.l1bridge.grantRole(
       await this.l1bridge.DEFAULT_ADMIN_ROLE(),
       this.deployer.address
-    );
-    await this.l1token.grantRole(
-      await this.l1token.MINTER_ROLE(),
-      this.minterAdmin.address
     );
     await this.l1token.grantRole(
       await this.l1token.DEFAULT_ADMIN_ROLE(),
@@ -97,7 +80,7 @@ describe("L1Bridge", function () {
     beforeEach(async function () {
       await this.l1token
         .connect(this.minterAdmin)
-        .mint(this.l1holder.address, 100);
+        .mint(this.l1holder.address);
     });
 
     it("token balance moved from holder to bridge", async function () {
@@ -115,19 +98,19 @@ describe("L1Bridge", function () {
           .addControllingAddress(this.l2bridge.address, this.l2ChainId);
       });
 
-      describe("approving 100 token to l1 bridge and outboundTransfer to l2 bridge", function () {
+      describe("approving token id 0 to l1 bridge and outboundTransfer to l2 bridge", function () {
         beforeEach(async function () {
           await this.l1token
             .connect(this.l1holder)
-            .approve(this.l1bridge.address, 100);
+            .approve(this.l1bridge.address, 0);
         });
 
-        it("100 token can be outbounded to l2 bridge", async function () {
+        it("token id 0 can be outbounded to l2 bridge", async function () {
           await this.l1bridge
             .connect(this.l1holder)
             .outboundTransfer(
               this.l1holder.address,
-              100,
+              0,
               this.l2ChainId,
               this.l2bridge.address,
               ethers.utils.parseEther("0.01"),
@@ -135,13 +118,13 @@ describe("L1Bridge", function () {
             );
         });
 
-        describe("outboundTransfer 100 token to l2 bridge", function () {
+        describe("outboundTransfer token id 0 to l2 bridge", function () {
           beforeEach(async function () {
             this.outboundTransferTx = await this.l1bridge
               .connect(this.l1holder)
               .outboundTransfer(
                 this.l1holder.address,
-                100,
+                0,
                 this.l2ChainId,
                 this.l2bridge.address,
                 ethers.utils.parseEther("0.01"),
@@ -160,7 +143,7 @@ describe("L1Bridge", function () {
             //todo: use l2 bridge interface to be consistent
             const data = this.l1bridge.interface.encodeFunctionData(
               "finalizeInboundTransfer",
-              [this.l1holder.address, "", 100]
+              [this.l1holder.address, "", 0]
             );
             await expect(this.outboundTransferTx).to.emit(
               this.l1debridgeGate,
@@ -171,8 +154,8 @@ describe("L1Bridge", function () {
               .withArgs([executionFee, flags, fallbackAddress, data]);
           });
 
-          it("l1bridge is ownerOf 100 token", async function () {
-            expect(await this.l1token.ownerOf(100)).to.equal(
+          it("l1bridge is ownerOf token id 0", async function () {
+            expect(await this.l1token.ownerOf(0)).to.equal(
               this.l1bridge.address
             );
             expect(
