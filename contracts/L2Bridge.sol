@@ -27,14 +27,11 @@ interface IERC721Bridged is IERC721 {
 contract L2Bridge is BridgeAppBase {
     using Flags for uint256;
 
-    // Original token on L1 network (Ethereum mainnet #1)
-    IERC721 public l1Token;
-
-    // L2 mintable + burnable token that acts as a twin of L1 asset
+    // Original token on L2network (Ethereum mainnet #1)
     IERC721Bridged public l2Token;
 
     event WithdrawalInitiated(
-        address l1Token,
+        address l2Token,
         address indexed _from,
         address indexed _to,
         uint256 _id
@@ -48,14 +45,11 @@ contract L2Bridge is BridgeAppBase {
     );
 
     constructor(
-        IERC721 _l1Token,
         IERC721Bridged _l2Token,
         IDeBridgeGate _deBridgeGate
     ) {
-        require(address(_l1Token) != address(0), "ZERO_TOKEN");
         require(address(_l2Token) != address(0), "ZERO_TOKEN");
         require(address(_deBridgeGate) != address(0), "ZERO_DEBRIDGEGATE");
-        l1Token = _l1Token;
         l2Token = _l2Token;
         deBridgeGate = _deBridgeGate;
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
@@ -75,7 +69,7 @@ contract L2Bridge is BridgeAppBase {
         require(_to != address(0), "Token cannot be the zero address");
 
         l2Token.mint(_to, _id);
-        emit DepositFinalized(address(l1Token), _l1Tx, _to, _id);
+        emit DepositFinalized(address(l2Token), _l1Tx, _to, _id);
     }
 
     /**
@@ -97,7 +91,7 @@ contract L2Bridge is BridgeAppBase {
 
         l2Token.transferFrom(msg.sender, address(this), _id);
         l2Token.burn(_id);
-        emit WithdrawalInitiated(address(l1Token), msg.sender, _to, _id);
+        emit WithdrawalInitiated(address(l2Token), msg.sender, _to, _id);
 
         IDeBridgeGate.SubmissionAutoParamsTo memory autoParams;
         autoParams.flags = autoParams.flags.setFlag(
