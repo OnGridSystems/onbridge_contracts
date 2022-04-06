@@ -25,13 +25,13 @@ contract L1Bridge is BridgeAppBase {
         address indexed l1Token,
         address indexed _from,
         address indexed _to,
-        uint256 _amount
+        uint256 _id
     );
     event WithdrawalFinalized(
         address indexed l1Token,
         string indexed _l2Tx,
         address indexed _to,
-        uint256 _amount
+        uint256 _id
     );
 
     constructor(
