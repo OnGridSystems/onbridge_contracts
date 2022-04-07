@@ -9,7 +9,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   await deploy("L2Bridge", {
     from: deployer,
     log: true,
-    args: [bscToken, ethToken, DeBridgeGate],
+    args: [ethToken, DeBridgeGate],
     skipIfAlreadyDeployed: true,
   });
 };
