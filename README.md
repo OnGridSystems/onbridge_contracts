@@ -44,23 +44,24 @@ yarn hardhat deploy --tags L2Bridge --network <network>
 set l1 and l2 tokens addresses to constants.js
 
 ```bash
-yarn hardhat --network <network> setContractAddressOnChainIdL1
-yarn hardhat --network <network> setContractAddressOnChainIdL2
+yarn setContractAddressOnChainIdBsc:bsc_testnet
+yarn setContractAddressOnChainIdEth:kovan
+yarn setContractAddressOnChainIdPolygon:mumbai
 
-yarn hardhat --network <network> addControllingAddressL1
-yarn hardhat --network <network> addControllingAddressL2
+yarn addControllingAddressBsc:bsc_testnet
+yarn addControllingAddressEth:kovan
+yarn addControllingAddressPolygon:mumbai
 
-yarn hardhat --network <network> grantOracleRoleL1
-yarn hardhat --network <network> grantOracleRoleL2
-
-yarn hardhat --network <network> grantMinterRoleToL1Bridge
-yarn hardhat --network <network> grantMinterRoleToL2Bridge
+yarn grantMinterRoleToEthBridge:kovan
+yarn grantMinterRoleToPolygonBridge:mumbai
 ```
 
 ## Bridge token
 
 set tokenId to constants.js
 ```bash
-yarn hardhat --network <network> bridgeERC721TokenToL2
-yarn hardhat --network <network> bridgeERC721TokenToL1
+yarn bridgeToL2:mumbai
+yarn bridgeToL2:kovan
+
+yarn bridgeToL1:bsc_testnet
 ```

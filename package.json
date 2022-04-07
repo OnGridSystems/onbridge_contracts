@@ -49,7 +49,19 @@
     "lint:sol": "npx prettier --check \"contracts/*.sol\"",
     "lint:sol:fix": "npx prettier --write \"contracts/*.sol\"",
     "prettier": "prettier -c 'contracts/**/*.sol'",
-    "prettier:fix": "prettier --write 'contracts/**/*.sol'"
+    "prettier:fix": "prettier --write 'contracts/**/*.sol'",
+    "bridgeToL2:mumbai": "yarn hardhat --network bsc_testnet bridgeERC721TokenToPolygon",
+    "bridgeToL2:kovan": "yarn hardhat --network bsc_testnet bridgeERC721TokenToEth",
+    "bridgeToL1:bsc_testnet:from_mumbai": "yarn hardhat --network mumbai bridgeERC721TokenToBscFromPolygon",
+    "bridgeToL1:bsc_testnet:from_kovan": "yarn hardhat --network kovan bridgeERC721TokenToBscFromKovan",
+    "setContractAddressOnChainIdBsc:bsc_testnet": "yarn hardhat --network bsc_testnet setContractAddressOnChainIdBsc",
+    "setContractAddressOnChainIdEth:kovan": "yarn hardhat ---network kovan setContractAddressOnChainIdEth",
+    "setContractAddressOnChainIdPolygon:mumbai": "yarn hardhat --network mumbai setContractAddressOnChainIdPolygon",
+    "addControllingAddressBsc:bsc_testnet": "yarn hardhat --network bsc_testnet addControllingAddressBsc",
+    "addControllingAddressEth:kovan": "yarn hardhat --network kovan addControllingAddressEth",
+    "addControllingAddressPolygon:mumbai": "yarn hardhat --network mumbai addControllingAddressPolygon",
+    "grantMinterRoleToEthBridge:kovan": "yarn hardhat --network kovan grantMinterRoleToEthBridge",
+    "grantMinterRoleToPolygonBridge:mumbai": "yarn hardhat --network mumbai grantMinterRoleToPolygonBridge"
   },
   "dependencies": {
     "@openzeppelin/contracts-upgradeable": "^4.4.2",

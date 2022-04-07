@@ -7,7 +7,7 @@ const {
   tokenId,
 } = require("../constants");
 
-task("bridgeERC721TokenToBsc", "outbound transfer from polygon chain").setAction(
+task("bridgeERC721TokenToBscFromPolygon", "outbound transfer from polygon chain").setAction(
   async (_, hre) => {
     const ethers = hre.ethers;
     const L2TokenInstance = await ethers.getContract("L2Token");
