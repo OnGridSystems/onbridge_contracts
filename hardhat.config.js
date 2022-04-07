@@ -63,7 +63,7 @@ module.exports = {
       tags: ["staging"],
     },
     kovan: {
-      url: "https://kovan.poa.network",
+      url: `https://kovan.infura.io/v3/${process.env.INFURA_KOVAN_API_KEY}`,
       accounts,
       chainId: 42,
       live: true,
