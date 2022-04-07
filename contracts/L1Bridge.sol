@@ -34,10 +34,7 @@ contract L1Bridge is BridgeAppBase {
         uint256 _id
     );
 
-    constructor(
-        IERC721 _l1Token,
-        IDeBridgeGate _deBridgeGate
-    ) {
+    constructor(IERC721 _l1Token, IDeBridgeGate _deBridgeGate) {
         require(address(_l1Token) != address(0), "ZERO_TOKEN");
         require(address(_deBridgeGate) != address(0), "ZERO_DEBRIDGEGATE");
         l1Token = _l1Token;
